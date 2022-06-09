@@ -19,6 +19,8 @@ import ru.otche13.notesapp.MainViewModel
 import ru.otche13.notesapp.MainViewModelFactory
 import ru.otche13.notesapp.navigation.NavRoute
 import ru.otche13.notesapp.ui.theme.NotesAppTheme
+import ru.otche13.notesapp.utils.TYPE_FIREBASE
+import ru.otche13.notesapp.utils.TYPE_ROOM
 
 @Composable
 fun StartScreen(navController: NavHostController) {
@@ -35,9 +37,9 @@ Scaffold(modifier=Modifier.fillMaxSize()){
     Text(text="What will we use?")
         Button(
             onClick = {
-
+                    mViewModel.initDatabase(TYPE_ROOM){
                       navController.navigate(route= NavRoute.Main.route)
-                      },
+                      }},
             modifier = Modifier
                 .width(200.dp)
                 .padding(vertical = 8.dp)
@@ -46,7 +48,8 @@ Scaffold(modifier=Modifier.fillMaxSize()){
         }
         Button(
             onClick = {
-                navController.navigate(route= NavRoute.Main.route)
+                mViewModel.initDatabase(TYPE_FIREBASE){
+                navController.navigate(route= NavRoute.Main.route)}
             },
             modifier = Modifier
                 .width(200.dp)
