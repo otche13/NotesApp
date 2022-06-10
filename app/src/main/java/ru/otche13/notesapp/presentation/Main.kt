@@ -31,72 +31,62 @@ import ru.otche13.notesapp.navigation.NavRoute
 import ru.otche13.notesapp.ui.theme.NotesAppTheme
 
 @Composable
-fun MainScreen(navController: NavHostController) {
-
-    val context= LocalContext.current
-    val mViewModel: MainViewModel =
-        viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
-
-
-
+fun MainScreen(navController: NavHostController, viewModel: MainViewModel) {
+    val notes = viewModel.readAllNotes().observeAsState(listOf()).value
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-               navController.navigate(NavRoute.Add.route)
+                    navController.navigate(NavRoute.Add.route)
                 }) {
                 Icon(
                     imageVector = Icons.Filled.Add,
-                    contentDescription ="Add icons",
-                    tint= Color.White
+                    contentDescription = "Add Icons",
+                    tint = Color.White
                 )
             }
         }
     ) {
-
-        //LazyColumn{
-           // items(notes){note->
-           //     NoteItem(note =note , navController = navController)
-           // }
-       // }
-    }
-    }
-@Composable
-    fun NoteItem(note: Note, navController: NavHostController){
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .padding(horizontal = 24.dp)
-                .clickable {
-                    navController.navigate(NavRoute.Note.route)
-                },
-            elevation = 6.dp
-        ) {
-            Column(
-                modifier = Modifier.padding(vertical = 8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-
-
-                Text(
-                    text = note.title,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = note.subtitle
-
-                )
+        LazyColumn {
+            items(notes) { note ->
+                NoteItem(note = note, navController = navController)
             }
         }
     }
-
+}
 
 @Composable
+fun NoteItem(note: Note, navController: NavHostController) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp, horizontal = 24.dp)
+            .clickable {
+                navController.navigate(NavRoute.Note.route + "/${note.id}")
+            },
+        elevation = 6.dp
+    ) {
+        Column(
+            modifier = Modifier.padding(vertical = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = note.title,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(text = note.subtitle)
+        }
+    }
+}
+
 @Preview(showBackground = true)
-fun prevMainScreen(){
+@Composable
+fun prevMainScreen() {
     NotesAppTheme {
-        MainScreen(navController = rememberNavController())
+        val context = LocalContext.current
+        val mViewModel: MainViewModel =
+            viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
+        MainScreen(navController = rememberNavController(), viewModel = mViewModel)
     }
 }
