@@ -9,7 +9,6 @@ import ru.otche13.notesapp.database.AppRoomDatabase
 import ru.otche13.notesapp.database.RoomRepository
 import ru.otche13.notesapp.model.Note
 import ru.otche13.notesapp.utils.REPOSITORY
-import ru.otche13.notesapp.utils.TYPE_FIREBASE
 import ru.otche13.notesapp.utils.TYPE_ROOM
 import java.lang.IllegalArgumentException
 
