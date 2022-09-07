@@ -8,8 +8,7 @@ import kotlinx.coroutines.launch
 import ru.otche13.notesapp.database.AppRoomDatabase
 import ru.otche13.notesapp.database.RoomRepository
 import ru.otche13.notesapp.model.Note
-import ru.otche13.notesapp.utils.REPOSITORY
-import ru.otche13.notesapp.utils.TYPE_ROOM
+import ru.otche13.notesapp.utils.*
 import java.lang.IllegalArgumentException
 
 class MainViewModel (application: Application) : AndroidViewModel(application) {
@@ -24,6 +23,8 @@ class MainViewModel (application: Application) : AndroidViewModel(application) {
                 REPOSITORY = RoomRepository(dao)
                 onSuccess()
             }
+
+
         }
     }
 
@@ -58,6 +59,18 @@ class MainViewModel (application: Application) : AndroidViewModel(application) {
     }
 
     fun readAllNotes() = REPOSITORY.readAll
+
+    fun signOut(onSuccess: () -> Unit) {
+        when (DB_TYPE.value) {
+
+            TYPE_ROOM -> {
+                
+                DB_TYPE.value = Constants.Keys.EMPTY
+                onSuccess()
+            }
+            else -> { Log.d("checkData", "signOut: ELSE: ${DB_TYPE.value}")}
+        }
+    }
 }
 
 class MainViewModelFactory(private val application: Application) : ViewModelProvider.Factory {

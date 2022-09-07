@@ -57,12 +57,14 @@ fun MainScreen(navController: NavHostController, viewModel: MainViewModel) {
 
 @Composable
 fun NoteItem(note: Note, navController: NavHostController) {
+    val noteId =  note.id
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 24.dp)
             .clickable {
-                navController.navigate(NavRoute.Note.route + "/${note.id}")
+                navController.navigate(NavRoute.Note.route + "/${noteId}")
             },
         elevation = 6.dp
     ) {

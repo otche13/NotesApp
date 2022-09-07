@@ -1,6 +1,7 @@
 package ru.otche13.notesapp.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -15,9 +16,7 @@ sealed class NavRoute(val route: String) {
 }
 
 @Composable
-fun NotesNavHost(mViewModel: MainViewModel) {
-    val navController = rememberNavController()
-
+fun NotesNavHost(mViewModel: MainViewModel, navController: NavHostController) {
     NavHost(navController = navController, startDestination = NavRoute.Main.route) {
         composable(NavRoute.Main.route) { MainScreen(navController = navController, viewModel = mViewModel) }
         composable(NavRoute.Add.route) { AddScreen(navController = navController, viewModel = mViewModel) }

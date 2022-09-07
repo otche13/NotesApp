@@ -23,16 +23,19 @@ import ru.otche13.notesapp.model.Note
 import ru.otche13.notesapp.navigation.NavRoute
 import ru.otche13.notesapp.ui.theme.NotesAppTheme
 import ru.otche13.notesapp.utils.Constants
+import ru.otche13.notesapp.utils.DB_TYPE
+import ru.otche13.notesapp.utils.TYPE_ROOM
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NoteScreen(navController: NavHostController, viewModel: MainViewModel, noteId: String?) {
     val notes = viewModel.readAllNotes().observeAsState(listOf()).value
-    val note = notes.firstOrNull{ it.id == noteId?.toInt()} ?: Note(title = Constants.Keys.NONE, subtitle = Constants.Keys.NONE,)
+    val note = notes.firstOrNull { it.id == noteId?.toInt() } ?: Note(0,"","")
+
     val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
-    var title by remember { mutableStateOf(Constants.Keys.EMPTY) }
-    var subtitle by remember { mutableStateOf(Constants.Keys.EMPTY) }
+    var title by remember { mutableStateOf(Constants.Keys.EMPTY)}
+    var subtitle by remember { mutableStateOf(Constants.Keys.EMPTY)}
 
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
